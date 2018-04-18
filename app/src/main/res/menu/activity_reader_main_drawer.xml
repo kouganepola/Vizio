@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_purchased_books"
+            android:icon="@drawable/ic_purchased_books"
+            android:title="@string/nav_purchased_books" />
+        <item
+            android:id="@+id/nav_search_books"
+            android:icon="@drawable/ic_search"
+            android:title="@string/nav_search_books" />
+        <item
+            android:id="@+id/nav_latest_books"
+            android:icon="@drawable/ic_latest_books"
+            android:title="@string/nav_latest_books" />
+
+
+
+    </group>
+    <item android:title="Other">
+        <menu>
+            <item
+                android:id="@+id/nav_about_us"
+                android:title="@string/nav_about_us" />
+        </menu>
+    </item>
+</menu>

@@ -1,3 +1,36 @@
 <resources>
     <string name="app_name">Vizio</string>
+    <!---Navigation Drawer -->
+    <string name="nav_purchased_books">Purchased Books</string>
+    <string name="nav_latest_books">Latest Books</string>
+    <string name="nav_search_books">Search for a Book</string>
+    <string name="nav_about_us">About Us</string>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+
+    <string-array name="nav_item_activity_titles">
+        <item>Purchased Books</item>
+        <item>Search for a Book</item>
+        <item>Latest Books</item>
+    </string-array>
+
+    <string name="action_logout">Logout</string>
+
+
+    <!-- Reader Purchased Activity -->
+    <string name="empty">Empty</string>
+    <!-- Login Activity -->
+    <string name="signed_out">Signed Out</string>
+    <string name="signed_in_fmt">Signed in as: %s</string>
+    <string name="signed_in">Signed In</string>
+    <string name="loading">Loading..</string>
+    <string name="role_prompt">Choose your role</string>
+    <string-array name="roles_arrays">
+        <item>Reader</item>
+        <item>Publisher</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 </resources>
