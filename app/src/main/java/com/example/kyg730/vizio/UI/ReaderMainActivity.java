@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import android.support.annotation.RequiresPermission;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -25,6 +26,8 @@ import com.example.kyg730.vizio.Fragments.LatestBooksFragment;
 import com.example.kyg730.vizio.Fragments.PurchasedBookFragment;
 import com.example.kyg730.vizio.Fragments.SearchBookFragment;
 import com.example.kyg730.vizio.R;
+import com.example.kyg730.vizio.Users.Reader;
+import com.example.kyg730.vizio.Users.User;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -65,6 +68,7 @@ public class ReaderMainActivity extends AppCompatActivity {
     private Handler mHandler;
 
     private DaoSession daoSession;
+    private Reader reader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +104,11 @@ public class ReaderMainActivity extends AppCompatActivity {
             CURRENT_TAG = TAG_PURCHASED_BOOKS;
             loadHomeFragment();
         }
-
+        //TODO: change name of DB with the user
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,"Vizio-db"); //The users-db here is the name of our database.
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
+        reader = new Reader();
     }
 
     /***
@@ -338,6 +343,9 @@ public class ReaderMainActivity extends AppCompatActivity {
     public DaoSession getDaoSession(){
 
         return daoSession;
+    }
+    public Reader getReader(){
+        return reader;
     }
 
 }

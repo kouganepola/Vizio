@@ -15,7 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.kyg730.vizio.Components.DaoMaster;
 import com.example.kyg730.vizio.Components.DaoSession;
+
+
+import org.greenrobot.greendao.database.Database;
 import com.example.kyg730.vizio.UI.ReaderMainActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -27,12 +31,21 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.InputStream;
 
+
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
-    private static final String TAG = "GPlusFragent";
+    private static final String TAG = "GPlusFragment";
     private int RC_SIGN_IN = 0;
     private GoogleApiClient mGoogleApiClient;
     private SignInButton signInButton;
@@ -43,7 +56,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
     private ImageView imgProfilePic;
-    private DaoSession daoSession;
+
+
 
 
 
@@ -52,10 +66,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
+                .requestIdToken(getString(R.string.server_client_id)).requestEmail()
                 .build();
 
         // Build a GoogleApiClient with access to the Google Sign-In API and the
@@ -147,15 +162,76 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
+
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+            String id_token = acct.getIdToken();
+
+            RequestParams params = new RequestParams();
+            params.put("IDtoken", id_token);
+
+            JSONObject obj = new JSONObject();
+
+            try {
+                obj.put("deviceId", "863703031920635");
+                obj.put("deviceKey","a37ac670b474e316518351943cc236e7");
+
+      /*params.put("plant","0");
+    /*  } catch (JSONException e) {
+        e.printStackTrace();
+      }*/
+                //  params.put("payload","fjf");
+
+
+                //passes the results to a string builder/entity
+                StringEntity se = new StringEntity(obj.toString());
+
+                //sets the post request as the resulting string
+
+                // params.put("payload",obj.toString());
+                Log.d("HTTP","Params READY!!!");
+
+                // try {
+                // HttpClient.postJson("upload",se,new TextHttpResponseHandler() {
+                HttpClient.post("",params,new JsonHttpResponseHandler() {
+                    //HttpClient.post(params,new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Log.v("Success","nooooo"+statusCode);
+                    }
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String response) {
+                      //  JsonParser parser = new JsonParser();
+                      //  JsonElement result = parser.parse(response);
+                       /* if (result.isJsonObject()) {
+                            JsonObject obj = result.getAsJsonObject();
+
+
+
+                            // Log.v("dooo",obj.get("payload").getAsString());
+                            // System.out.println(d_obj.get("probability").getAsFloat());
+
+
+
+                        }
+                        */
+                        Log.v("Success","uuuuuu "+statusCode);
+
+                    }
+                });
+            }catch (Exception e){
+
+            }
+
+
+            Log.v("id","Suc"+id_token);
 
 
             if(String.valueOf(role.getSelectedItem()).equals("Reader")){
 
-                Intent readerAct = new Intent(this,ReaderMainActivity.class);
-                startActivity(readerAct);
+              Intent readerAct = new Intent(this,ReaderMainActivity.class);
+              startActivity(readerAct);
             }else if (String.valueOf(role.getSelectedItem()).equals("Publisher")){
 
             }else {
@@ -251,10 +327,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
-    public DaoSession getDaoSession(){
 
-        return daoSession;
-    }
+
 
     /**
      * Created by Koumudi on 13/03/2018.
