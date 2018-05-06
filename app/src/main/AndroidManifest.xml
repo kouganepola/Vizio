@@ -3,6 +3,7 @@
     package="com.example.kyg730.vizio">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,9 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.ReaderMainActivity">
-
-        </activity>
+        <activity android:name=".UI.ReaderMainActivity"></activity>
+        <activity android:name=".UI.PublisherMainActivity"></activity>
+        <activity android:name=".UI.BookViewActivity"></activity>
     </application>
 
 </manifest>

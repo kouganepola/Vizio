@@ -8,13 +8,16 @@
     <string name="nav_about_us">About Us</string>
     <string name="openDrawer">open_drawer</string>
     <string name="closeDrawer">close_drawer</string>
+    <string name="nav_add_book">Add New Book</string>
 
-    <string-array name="nav_item_activity_titles">
-        <item>Purchased Books</item>
-        <item>Search for a Book</item>
-        <item>Latest Books</item>
+    <string-array name="nav_reader_item_activity_titles">
+    <item>Purchased Books</item>
+    <item>Search for a Book</item>
+    <item>Latest Books</item>
+</string-array>
+    <string-array name="nav_pblisher_item_activity_titles">
+        <item>Add New Book</item>
     </string-array>
-
     <string name="action_logout">Logout</string>
 
 

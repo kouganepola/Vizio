@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.kyg730.vizio.Components.DaoMaster;
-import com.example.kyg730.vizio.Components.DaoSession;
 
-
-import org.greenrobot.greendao.database.Database;
 import com.example.kyg730.vizio.UI.ReaderMainActivity;
+import com.example.kyg730.vizio.Users.Publisher;
+import com.example.kyg730.vizio.Users.Reader;
+import com.example.kyg730.vizio.Users.User;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -38,7 +38,9 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+
 
 
 import cz.msebera.android.httpclient.Header;
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
     private ImageView imgProfilePic;
-
+    private User user;
 
 
 
@@ -123,13 +125,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onStart();
         File mydir = new File(getApplicationContext().getFilesDir(),"Media");
         mydir.mkdir();
+        handleSignInResult();
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
             // and the GoogleSignInResult will be available instantly.
             Log.d(TAG, "Got cached sign-in");
             GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
+           /// handleSignInResult(result);
         } else {
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
@@ -140,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 @Override
                 public void onResult(GoogleSignInResult googleSignInResult) {
                     hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
+                   /// handleSignInResult(googleSignInResult);
                 }
             });
         }
@@ -154,22 +157,42 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+           /// handleSignInResult(result);
         }
     }
 
 
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
+    private void updateUI(boolean signedIn) {
+        if (signedIn) {
+            signInButton.setVisibility(View.GONE);
+            role.setVisibility(View.GONE);
+            signOutButton.setVisibility(View.VISIBLE);
+        } else {
+            mStatusTextView.setText(R.string.signed_out);
+            Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.user_default);
+            imgProfilePic.setImageBitmap(icon);
+            signInButton.setVisibility(View.VISIBLE);
+            role.setVisibility(View.VISIBLE);
+            signOutButton.setVisibility(View.GONE);
+        }
+    }
+
+
+
+
+   /// private void handleSignInResult(GoogleSignInResult result) {
+        private void handleSignInResult() {
+       /// Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        ///   if (result.isSuccess()) {
+        if(true){
 
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            String id_token = acct.getIdToken();
+           /// GoogleSignInAccount acct = result.getSignInAccount();
+          ///  mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
+           /// String id_token = acct.getIdToken();
 
             RequestParams params = new RequestParams();
-            params.put("IDtoken", id_token);
+           /// params.put("IDtoken", id_token);
 
             JSONObject obj = new JSONObject();
 
@@ -202,8 +225,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     }
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String response) {
-                      //  JsonParser parser = new JsonParser();
-                      //  JsonElement result = parser.parse(response);
+                        //  JsonParser parser = new JsonParser();
+                        //  JsonElement result = parser.parse(response);
                        /* if (result.isJsonObject()) {
                             JsonObject obj = result.getAsJsonObject();
 
@@ -225,45 +248,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
 
 
-            Log.v("id","Suc"+id_token);
+
 
 
             if(String.valueOf(role.getSelectedItem()).equals("Reader")){
-
-              Intent readerAct = new Intent(this,ReaderMainActivity.class);
-              startActivity(readerAct);
+                user = new Publisher();
+                user.start(this);
             }else if (String.valueOf(role.getSelectedItem()).equals("Publisher")){
+
+                Intent readerAct = new Intent(this,ReaderMainActivity.class);
+                startActivity(readerAct);
+
 
             }else {
 
             }
             //Similarly you can get the email and photourl using acct.getEmail() and  acct.getPhotoUrl()
 
-            if(acct.getPhotoUrl() != null)
-                new LoadProfileImage(imgProfilePic).execute(acct.getPhotoUrl().toString());
+          ///  if(acct.getPhotoUrl() != null)
+             ///   new LoadProfileImage(imgProfilePic).execute(acct.getPhotoUrl().toString());
 
             updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
-        }
-    }
-
-
-
-
-    private void updateUI(boolean signedIn) {
-        if (signedIn) {
-            signInButton.setVisibility(View.GONE);
-            role.setVisibility(View.GONE);
-            signOutButton.setVisibility(View.VISIBLE);
-        } else {
-            mStatusTextView.setText(R.string.signed_out);
-            Bitmap icon = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.user_default);
-            imgProfilePic.setImageBitmap(icon);
-            signInButton.setVisibility(View.VISIBLE);
-            role.setVisibility(View.VISIBLE);
-            signOutButton.setVisibility(View.GONE);
         }
     }
 

@@ -1,5 +1,8 @@
 package com.example.kyg730.vizio.Components;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.greenrobot.greendao.annotation.*;
 
 import java.lang.reflect.Array;
@@ -20,7 +23,7 @@ import org.greenrobot.greendao.DaoException;
  * Entity mapped to table "BOOK".
  */
 @Entity(active = true)
-public class Book {
+public class Book implements Parcelable{
 
     @Id
     private long Book_ID;
@@ -32,7 +35,7 @@ public class Book {
     private String CoverImagePath;
     private String Updated_Date;
     private String Summary;
-    private String PublisherEmail;
+    private String Cost;
 
 
     private static final Map<String, String> bookTagMap;
@@ -46,7 +49,7 @@ public class Book {
         bookTagMap.put("TAG_SUMMARY", "Summary");
         bookTagMap.put("TAG_COVER_IMAGE_PATH", "CoverImage_Path");
         bookTagMap.put("TAG_PUBLISHER_NAME", "Publisher_Name");
-        bookTagMap.put("TAG_PUBLISHER_EMAIL", "Email");
+        bookTagMap.put("TAG_COST", "Cost");
     }
 
     @NotNull
@@ -86,17 +89,41 @@ public class Book {
         this.Acquired_Date = Acquired_Date;
     }
 
-    public Book(long Book_ID, String Name, String Author, String Updated_Date, String Summary,  String CoverImagePath,String Publisher_Name, String Publisher_Email) {
+    public Book(long Book_ID, String Name, String Author, String Updated_Date, String Summary,  String CoverImagePath,String Publisher_Name, String Cost) {
         this.Book_ID = Book_ID;
         this.Name = Name;
         this.Author = Author;
         this.Updated_Date = Updated_Date;
         this.Summary = Summary;
-        this.PublisherEmail = Publisher_Email;
+        this.Cost = Cost;
         this.Publisher = Publisher_Name;
         this.CoverImagePath = CoverImagePath;
 
     }
+
+    protected Book(Parcel in) {
+        Book_ID = in.readLong();
+        Name = in.readString();
+        Author = in.readString();
+        Publisher = in.readString();
+        CoverImagePath = in.readString();
+        Updated_Date = in.readString();
+        Summary = in.readString();
+        Cost = in.readString();
+        Acquired_Date = in.readString();
+    }
+
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
 
     /** called by internal mechanisms, do not call yourself. */
     @Generated
@@ -133,6 +160,14 @@ public class Book {
 
     public String getPublisher() {
         return Publisher;
+    }
+
+    public void setSummary(String summary) {
+        Summary = summary;
+    }
+
+    public void setCost(String cost) {
+        Cost = cost;
     }
 
     public void setPublisher(String Publisher) {
@@ -227,11 +262,29 @@ public class Book {
         return Summary;
     }
 
-    public String getPublisherEmail() {
-        return PublisherEmail;
+    public String getCost() {
+        return Cost;
     }
 
     public static Map<String, String> getBookTagMap() {
         return bookTagMap;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(Book_ID);
+        parcel.writeString(Name);
+        parcel.writeString(Author);
+        parcel.writeString(Publisher);
+        parcel.writeString(CoverImagePath);
+        parcel.writeString(Updated_Date);
+        parcel.writeString(Summary);
+        parcel.writeString(Cost);
+        parcel.writeString(Acquired_Date);
     }
 }

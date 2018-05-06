@@ -22,12 +22,14 @@ import android.widget.Toast;
 
 import com.example.kyg730.vizio.Components.DaoMaster;
 import com.example.kyg730.vizio.Components.DaoSession;
+import com.example.kyg730.vizio.Fragments.AddNewBookFragment;
 import com.example.kyg730.vizio.Fragments.LatestBooksFragment;
 import com.example.kyg730.vizio.Fragments.PurchasedBookFragment;
 import com.example.kyg730.vizio.Fragments.SearchBookFragment;
 import com.example.kyg730.vizio.MainActivity;
 import com.example.kyg730.vizio.R;
-import com.example.kyg730.vizio.Users.Reader;
+import com.example.kyg730.vizio.Users.Publisher;
+
 import com.example.kyg730.vizio.Users.User;
 
 import org.greenrobot.greendao.database.Database;
@@ -37,7 +39,7 @@ import org.greenrobot.greendao.database.Database;
  * Created by Koumudi on 13/03/2018.
  */
 
-public class ReaderMainActivity extends AppCompatActivity {
+public class PublisherMainActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -56,10 +58,8 @@ public class ReaderMainActivity extends AppCompatActivity {
     public static int navItemIndex = 0;
 
     // tags used to attach the fragments
-    private static final String TAG_PURCHASED_BOOKS = "purchased books";
-    private static final String TAG_LATEST_BOOKS = "latest books";
-    private static final String TAG_SEARCH_BOOKS = "search books";
-    public static String CURRENT_TAG = TAG_PURCHASED_BOOKS;
+    private static final String TAG_ADD_BOOKS = "add books";
+    public static String CURRENT_TAG = TAG_ADD_BOOKS;
 
     // toolbar titles respected to selected nav menu item
     private String[] activityTitles;
@@ -69,12 +69,12 @@ public class ReaderMainActivity extends AppCompatActivity {
     private Handler mHandler;
 
     private DaoSession daoSession;
-    private Reader reader;
+    private Publisher publisher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reader_main);
+        setContentView(R.layout.activity_publisher_main );
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -92,7 +92,7 @@ public class ReaderMainActivity extends AppCompatActivity {
         imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
 
         // load toolbar titles from string resources
-        activityTitles = getResources().getStringArray(R.array.nav_reader_item_activity_titles);
+        activityTitles = getResources().getStringArray(R.array.nav_pblisher_item_activity_titles);
 
         // load nav menu header data
         loadNavHeader();
@@ -102,14 +102,14 @@ public class ReaderMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             navItemIndex = 0;
-            CURRENT_TAG = TAG_PURCHASED_BOOKS;
+            CURRENT_TAG = TAG_ADD_BOOKS;
             loadHomeFragment();
         }
         //TODO: change name of DB with the user
-       // DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,"Vizio-db"); //The users-db here is the name of our database.
-       // Database db = helper.getWritableDb();
+        // DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,"Vizio-db"); //The users-db here is the name of our database.
+        // Database db = helper.getWritableDb();
         daoSession = DaoMaster.newDevSession(this,"Vizio-db");
-        reader=getIntent().getParcelableExtra("ReaderParcel");
+        publisher=getIntent().getParcelableExtra("PublisherParcel");
     }
 
     /***
@@ -193,21 +193,13 @@ public class ReaderMainActivity extends AppCompatActivity {
         switch (navItemIndex) {
             case 0:
                 // PurcasedBooks
-                PurchasedBookFragment purchasedBookFragment = new PurchasedBookFragment();
-                return purchasedBookFragment;
-            case 1:
+                AddNewBookFragment addNewBookFragment = new AddNewBookFragment();
+                return addNewBookFragment;
 
-                // searchBooks
-                SearchBookFragment searchBookFragment = new SearchBookFragment();
-                return searchBookFragment;
 
-            case 2:
-
-                // latestBooks
-            LatestBooksFragment latestBooksFragment = new LatestBooksFragment();
-            return latestBooksFragment;
             default:
-                return new PurchasedBookFragment();
+                return new AddNewBookFragment();
+
         }
     }
 
@@ -230,21 +222,14 @@ public class ReaderMainActivity extends AppCompatActivity {
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()) {
                     //Replacing the main content with ContentFragment Which is our Inbox View;
-                    case R.id.nav_purchased_books:
+                    case R.id.nav_add_books:
                         navItemIndex = 0;
-                        CURRENT_TAG = TAG_PURCHASED_BOOKS;
+                        CURRENT_TAG = TAG_ADD_BOOKS;
                         break;
-                    case R.id.nav_search_books:
-                        navItemIndex = 1;
-                        CURRENT_TAG = TAG_SEARCH_BOOKS;
-                        break;
-                    case R.id.nav_latest_books:
-                        navItemIndex = 2;
-                        CURRENT_TAG = TAG_LATEST_BOOKS;
-                        break;
+
                     case R.id.nav_about_us:
                         // launch new intent instead of loading fragment
-                        startActivity(new Intent(ReaderMainActivity.this, AboutUsActivity.class));
+                        startActivity(new Intent(PublisherMainActivity.this, AboutUsActivity.class));
                         drawer.closeDrawers();
                         return true;
                     default:
@@ -302,7 +287,7 @@ public class ReaderMainActivity extends AppCompatActivity {
             // rather than home
             if (navItemIndex != 0) {
                 navItemIndex = 0;
-                CURRENT_TAG = TAG_PURCHASED_BOOKS;
+                CURRENT_TAG = TAG_ADD_BOOKS;
                 loadHomeFragment();
                 return;
             }
@@ -333,7 +318,7 @@ public class ReaderMainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
-            
+
             return true;
         }
 
@@ -346,8 +331,8 @@ public class ReaderMainActivity extends AppCompatActivity {
 
         return daoSession;
     }
-    public Reader getReader(){
-        return reader;
+    public Publisher getPublisher(){
+        return publisher;
     }
 
 }

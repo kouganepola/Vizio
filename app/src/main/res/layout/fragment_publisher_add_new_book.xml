@@ -1,0 +1,111 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.kyg730.vizio.Fragments.AddNewBookFragment">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="15dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:layout_constraintRight_toRightOf="parent">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:text="Book Details"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/anbetName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Book Name"
+            android:inputType="textPersonName"
+            android:paddingTop="20dp"
+            android:textColor="@color/cardview_dark_background"
+            android:textColorLink="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+
+
+        <EditText
+            android:id="@+id/anbetAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Author"
+            android:inputType="textPersonName"
+            android:maxLines="5"
+            android:nestedScrollingEnabled="true"
+            android:paddingTop="30dp"
+            android:textColor="@color/cardview_dark_background"
+            android:textColorLink="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+
+
+        <EditText
+            android:id="@+id/anbetSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="Summary"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:paddingTop="30dp"
+            android:textColor="@color/cardview_dark_background"
+            android:textColorLink="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+
+
+        <EditText
+            android:id="@+id/anbetCost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Cost : Rs"
+            android:inputType="numberDecimal"
+            android:paddingTop="30dp"
+            android:textColor="@color/cardview_dark_background"
+            android:textColorLink="@color/colorPrimaryDark"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="?attr/colorPrimary"
+            android:paddingLeft="45dp"
+            android:paddingRight="45dp"
+            android:text="Upload"
+            android:textColor="@color/common_google_signin_btn_text_dark_pressed" />
+
+    </LinearLayout>
+
+
+    </ScrollView>
+
+
+
+</FrameLayout>

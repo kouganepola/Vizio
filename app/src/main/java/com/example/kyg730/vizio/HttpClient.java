@@ -16,7 +16,7 @@ import cz.msebera.android.httpclient.HttpEntity;
  */
 
 public class HttpClient {
-    private static final String BASE_URL = "http://5a2739ae.ngrok.io/";
+    private static final String BASE_URL = "http://2a67b646.ngrok.io/";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 

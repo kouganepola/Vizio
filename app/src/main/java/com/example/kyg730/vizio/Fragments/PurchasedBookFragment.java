@@ -12,7 +12,6 @@ import android.widget.SearchView;
 import com.example.kyg730.vizio.Users.Reader;
 import com.example.kyg730.vizio.UI.BookListAdapter;
 import com.example.kyg730.vizio.Components.Book;
-import com.example.kyg730.vizio.Components.BookDao;
 import com.example.kyg730.vizio.Components.DaoSession;
 import com.example.kyg730.vizio.R;
 import com.example.kyg730.vizio.UI.ReaderMainActivity;
@@ -46,7 +45,7 @@ public class PurchasedBookFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.activity_reader_purchased_books, container,false);
+        View view =  inflater.inflate(R.layout.fragment_reader_purchased_books, container,false);
         final BookListAdapter purBooksAdapter = new BookListAdapter( getActivity(),R.layout.activity_book_item_view,bookList);
         ListView purBookList = (ListView) view.findViewById(R.id.plist);
         purBookList.setAdapter(purBooksAdapter);

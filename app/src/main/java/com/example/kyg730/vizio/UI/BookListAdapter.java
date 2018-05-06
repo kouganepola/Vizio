@@ -1,11 +1,13 @@
 package com.example.kyg730.vizio.UI;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.kyg730.vizio.Components.Book;
 import com.example.kyg730.vizio.R;
+import com.example.kyg730.vizio.Users.Reader;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,17 +41,19 @@ public class BookListAdapter extends ArrayAdapter<Book>{
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         View rowView = inflater.inflate(R.layout.activity_book_item_view, parent, false);
+        CardView cardView = (CardView) rowView.findViewById(R.id.card_viewlog);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView_bookcover);
         TextView name = (TextView) rowView.findViewById(R.id.textView_book_name);
         TextView data =(TextView)rowView.findViewById(R.id.textView_data);
 
         try {
             //TODO
-            File f=new File(getContext().getFilesDir(), "Aladin.jpg");
+            File f=new File(getContext().getFilesDir(), books.get(position).getName()+".jpg");
 
 
             BitmapFactory.Options options = new BitmapFactory.Options();
@@ -66,6 +71,16 @@ public class BookListAdapter extends ArrayAdapter<Book>{
         }
         name.setText(books.get(position).getName());
         data.setText(books.get(position).getAuthor());
+
+       cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewAct = new Intent(getContext(),BookViewActivity.class);
+                viewAct.putExtra("bookParcel", books.get(position));
+                viewAct.putExtra("readerParcel", ((ReaderMainActivity)getContext()).getReader());
+                getContext().startActivity(viewAct);
+            }
+        });
         return rowView;
 
     }
