@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
             if(String.valueOf(role.getSelectedItem()).equals("Reader")){
-                user = new Publisher();
+                user = new Reader();
                 user.start(this);
             }else if (String.valueOf(role.getSelectedItem()).equals("Publisher")){
 

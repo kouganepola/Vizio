@@ -35,7 +35,7 @@ public class PurchasedBookFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         daoSession =((ReaderMainActivity)getActivity()).getDaoSession();
-        reader = ((ReaderMainActivity)getActivity()).getReader(); //*************************************
+        reader = Reader.getReader(); //*************************************
 
         bookList = reader.getPurchasedBooks(daoSession) ;
 
@@ -46,7 +46,7 @@ public class PurchasedBookFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_reader_purchased_books, container,false);
-        final BookListAdapter purBooksAdapter = new BookListAdapter( getActivity(),R.layout.activity_book_item_view,bookList);
+        final BookListAdapter purBooksAdapter = new BookListAdapter( getActivity(),R.layout.activity_book_item_view,bookList,"ARView");
         ListView purBookList = (ListView) view.findViewById(R.id.plist);
         purBookList.setAdapter(purBooksAdapter);
 

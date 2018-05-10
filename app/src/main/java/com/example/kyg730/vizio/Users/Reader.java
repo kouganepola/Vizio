@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.RequiresPermission;
 import android.util.Log;
 
 import com.example.kyg730.vizio.Components.Book;
@@ -12,37 +11,25 @@ import com.example.kyg730.vizio.Components.BookDao;
 import com.example.kyg730.vizio.Components.DaoMaster;
 import com.example.kyg730.vizio.Components.DaoSession;
 import com.example.kyg730.vizio.Fragments.LatestBooksFragment;
-import com.example.kyg730.vizio.Fragments.PurchasedBookFragment;
 import com.example.kyg730.vizio.Fragments.SearchBookFragment;
 import com.example.kyg730.vizio.HttpClient;
-import com.example.kyg730.vizio.HttpClientN;
-import com.example.kyg730.vizio.UI.BookViewActivity;
 import com.example.kyg730.vizio.UI.ReaderMainActivity;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.Query;
-import org.greenrobot.greendao.query.QueryBuilder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.entity.StringEntity;
 
 /**
  * Created by Koumudi on 29/04/2018.
@@ -53,6 +40,12 @@ public class Reader extends User implements Parcelable{
     private BookDao bookDao;
     private Query<Book> bookQuery;
 
+    public static Reader getReader() {
+        return reader;
+    }
+
+    private static Reader reader;
+
 
 
 
@@ -60,7 +53,7 @@ public class Reader extends User implements Parcelable{
 
     public Reader() {
 
-
+        this.reader = this;
     }
 
     @Override

@@ -35,7 +35,7 @@ public class LatestBooksFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         daoSession =((ReaderMainActivity)getActivity()).getDaoSession();
-        reader = ((ReaderMainActivity)getActivity()).getReader(); //*************************************
+        reader = Reader.getReader(); //*************************************
         bookList= new ArrayList<>();
         reader.getLatestBooks();
 
@@ -46,7 +46,7 @@ public class LatestBooksFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_reader_latest_books, container, false);
-        latestBooksAdapter = new BookListAdapter((ReaderMainActivity) getActivity(),R.layout.activity_book_item_view,bookList);
+        latestBooksAdapter = new BookListAdapter((ReaderMainActivity) getActivity(),R.layout.activity_book_item_view,bookList,"Download");
         ListView latestBookList = (ListView) view.findViewById(R.id.llist);
         latestBookList.setAdapter(latestBooksAdapter);
 

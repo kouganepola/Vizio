@@ -52,6 +52,8 @@
                 android:text="TextView"
                 android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title" />
 
+
+
             <TextView
                 android:id="@+id/textView_data"
                 android:layout_width="189dp"
@@ -65,6 +67,7 @@
                 android:text="TextView"
                 android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
                 android:layout_weight="0.51" />
+
 
         </LinearLayout>
 

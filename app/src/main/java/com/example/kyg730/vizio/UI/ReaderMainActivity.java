@@ -342,7 +342,7 @@ public class ReaderMainActivity extends AppCompatActivity {
     }
 
 
-    public DaoSession getDaoSession(){
+    public  DaoSession getDaoSession(){
 
         return daoSession;
     }

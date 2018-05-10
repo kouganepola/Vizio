@@ -36,7 +36,7 @@ public class SearchBookFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         daoSession =((ReaderMainActivity)getActivity()).getDaoSession();
-        reader = ((ReaderMainActivity)getActivity()).getReader(); //*************************************
+        reader = Reader.getReader(); //*************************************
         bookList = new ArrayList<Book>();
 
 
@@ -47,7 +47,7 @@ public class SearchBookFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_reader_search_books, container,false);
-        searchBooksAdapter = new BookListAdapter( getActivity(),R.layout.activity_book_item_view,bookList);
+        searchBooksAdapter = new BookListAdapter( getActivity(),R.layout.activity_book_item_view,bookList,"Download");
         ListView searchBookList = (ListView) view.findViewById(R.id.slist);
         searchBookList.setAdapter(searchBooksAdapter);
 

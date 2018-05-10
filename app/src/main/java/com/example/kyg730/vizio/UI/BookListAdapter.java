@@ -2,13 +2,11 @@ package com.example.kyg730.vizio.UI;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +16,9 @@ import android.widget.TextView;
 
 import com.example.kyg730.vizio.Components.Book;
 import com.example.kyg730.vizio.R;
-import com.example.kyg730.vizio.Users.Reader;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -33,10 +29,12 @@ public class BookListAdapter extends ArrayAdapter<Book>{
 
     private final Context context;
     private List<Book> books;
-    public BookListAdapter(@NonNull Context context, int resource, @NonNull List<Book> objects) {
+    private String Action;
+    public BookListAdapter(@NonNull Context context, int resource, @NonNull List<Book> objects,String Action) {
         super(context, resource, objects);
         this.context = context;
         this.books = objects;
+        this.Action=Action;
     }
 
     @NonNull
@@ -50,6 +48,7 @@ public class BookListAdapter extends ArrayAdapter<Book>{
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView_bookcover);
         TextView name = (TextView) rowView.findViewById(R.id.textView_book_name);
         TextView data =(TextView)rowView.findViewById(R.id.textView_data);
+
 
         try {
             //TODO
@@ -72,15 +71,27 @@ public class BookListAdapter extends ArrayAdapter<Book>{
         name.setText(books.get(position).getName());
         data.setText(books.get(position).getAuthor());
 
-       cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent viewAct = new Intent(getContext(),BookViewActivity.class);
-                viewAct.putExtra("bookParcel", books.get(position));
-                viewAct.putExtra("readerParcel", ((ReaderMainActivity)getContext()).getReader());
-                getContext().startActivity(viewAct);
-            }
-        });
+        if(Action.equals("Download")) {
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent viewAct = new Intent(getContext(), BookViewActivity.class);
+                    viewAct.putExtra("bookParcel", books.get(position));
+                    viewAct.putExtra("readerParcel", ((ReaderMainActivity) getContext()).getReader());
+                    getContext().startActivity(viewAct);
+                }
+            });
+        }else if(Action.equals("ARView")){
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent viewAR = new Intent(getContext(), ViewARActivity.class);
+                    viewAR.putExtra("bookParcel", books.get(position));
+                    getContext().startActivity(viewAR);
+                }
+            });
+
+        }
         return rowView;
 
     }
